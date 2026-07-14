@@ -1,0 +1,38 @@
+class Solution {
+    /**
+     * @param {number[]} nums
+     * @param {number} k
+     * @return {number[]}
+     */
+    maxSlidingWindow(nums, k) {
+        const n = nums.length;
+
+        let left = 0;
+        let right = 0;
+
+        const queue = [];
+        const result = [];
+
+        while (right < n) {
+            while (queue[0] < left) {
+                queue.shift();
+            }
+            const curr = nums[right];
+
+            while (queue.length && nums[queue.at(-1)] < curr) {
+                queue.pop();
+            }
+
+            queue.push(right);
+
+            if (right - left + 1 === k) {
+                result[left] = nums[queue[0]];
+                left++;
+            }
+
+            right++;
+        }
+
+        return result;
+    }
+}
